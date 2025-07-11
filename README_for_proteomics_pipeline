@@ -1,0 +1,68 @@
+# Proteomics Analysis Pipeline
+
+Advanced R pipeline for large-scale proteomics data analysis with batch correction, cell-type validation, and pathway enrichment.
+
+## Overview
+
+This pipeline analyzes mass spectrometry proteomics data from human iPSC-derived neurons and microglia (4,000+ proteins per dataset). Developed for QR2 inhibition studies in Alzheimer's disease research.
+
+### Key Features
+- **Batch correction** using ComBat, SVA, and manual approaches
+- **Cell-type marker validation** with expression heatmaps
+- **Advanced protein ID mapping** (85-95% success rate)
+- **Pathway enrichment analysis** (GO terms, KEGG pathways)
+- **Publication-quality visualizations** (300 DPI PNG/PDF)
+- **Automated HTML reports** with interactive navigation
+
+## Pipeline Components
+
+### 1. Batch Correction (`01_batch_correction.R`)
+- Removes technical variation while preserving biological signal
+- Multiple methods: ComBat, Standard SVA+Limma, Manual SVA
+- Automated quality control with PCA visualization
+- Comprehensive protein tracking and validation
+
+### 2. Cell Type Validation (`02_cell_type_validation.R`)
+- Validates cellular identity using known markers
+- **Microglia**: IBA-1, TMEM119, P2Y12, CD68, CX3CR1
+- **Neurons**: MAP2, TUBB3, SYN1, NCAM1, synaptic proteins
+- Fold-change heatmaps showing cell-type specificity
+
+### 3. Pathway Analysis (`03_pathway_analysis.R`)
+- Gene Ontology enrichment (Biological Process, Molecular Function, Cellular Component)
+- KEGG pathway analysis with metabolic pathway focus
+- Multi-threshold analysis (log2FC > 1.0 and > 0.8)
+- Cell-type comparative analysis
+
+## Technical Highlights
+
+**Protein Mapping Strategy**: 5-stage approach using clusterProfiler, AnnotationDbi, biomaRt, with fuzzy matching and cell-type specific patterns
+
+**Scale**: 4,000+ proteins, multiple conditions, batch correction across technical replicates
+
+**Output**: CSV results, publication-ready plots, interactive HTML reports, comprehensive documentation
+
+## Installation
+
+```r
+# Bioconductor packages
+BiocManager::install(c("clusterProfiler", "org.Hs.eg.db", "sva", "limma"))
+
+# CRAN packages  
+install.packages(c("tidyverse", "ggplot2", "pheatmap", "writexl"))
+
+## Usage
+# Run complete analysis
+results <- run_qr2_pathway_analysis(
+    microglia_dir = "path/to/microglia/data",
+    neuron_dir = "path/to/neuron/data"
+
+## Research Application
+# QR2 Inhibition Study: Investigating quinone reductase 2 inhibition as therapeutic target
+# Metabolic pathway enrichment in both cell types
+# Cell-type specific responses to treatment
+
+## Key Results Example
+Microglia: Strong enrichment in DNA replication and repair processes
+Neurons: enrichment of lipid and complex carbohydrate metabolism pathways 
+Comparative: Differential metabolic responses between cell types
