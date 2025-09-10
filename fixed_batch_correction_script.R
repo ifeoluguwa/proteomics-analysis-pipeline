@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 #===============================================================================
 # Proteomics Data Batch Correction and Merging Script (Post-Duplicate Resolution)
-# CORRECTED VERSION - PART 1: Setup and Data Loading
 # 
 # This script performs:
 # 1. Loading of filtered datasets
@@ -18,8 +17,8 @@
 #-------------------------------------------------------------------------------
 # 1. Load required libraries
 #-------------------------------------------------------------------------------
-# Load required packages - uncomment and run if packages need to be installed
-# source("install_packages_updated.R")
+# Load required packages 
+# source("install_packages_updated.R") 
 
 library(sva)        # For batch correction with SVA
 library(limma)      # For batch correction with removeBatchEffect
@@ -1295,5 +1294,6 @@ for (file in key_files) {
 cat("=======================================================================\n")
 cat("SCRIPT EXECUTION COMPLETED SUCCESSFULLY!\n")
 cat("=======================================================================\n")
+
 
 # End of script
