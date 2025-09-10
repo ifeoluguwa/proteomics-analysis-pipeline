@@ -1,6 +1,3 @@
-# Enhanced QR2 Pathway Analysis Script
-# Improved file handling, more robust mapping, and higher quality visualizations
-
 # Load required libraries with better error handling
 load_required_packages <- function() {
   required_packages <- c(
@@ -34,7 +31,7 @@ load_required_packages <- function() {
   return(TRUE)
 }
 
-# Create a function to set up the results directory with better organization
+# Create a function to set up the results directory
 setup_results_dir <- function(base_name = "QR2_Pathway_Analysis_2025") {
   # Create base directory
   results_dir <- base_name
@@ -144,7 +141,7 @@ find_file <- function(base_dir, cell_type, file_pattern, verbose = TRUE) {
   return(NULL)
 }
 
-# Enhanced function to get significant proteins from CSV with better error handling
+# Get significant proteins from CSV with good error handling
 get_significant_proteins_from_csv <- function(csv_file_path, threshold, verbose = TRUE) {
   if(!file.exists(csv_file_path)) {
     if (verbose) message("File does not exist: ", csv_file_path)
@@ -183,7 +180,7 @@ get_significant_proteins_from_csv <- function(csv_file_path, threshold, verbose 
   })
 }
 
-# Enhanced function to get all proteins for universe
+# Function to get all proteins for universe
 get_universe_proteins_from_csv <- function(csv_file_path, verbose = TRUE) {
   # Check if file exists
   if(!file.exists(csv_file_path)) {
@@ -191,7 +188,7 @@ get_universe_proteins_from_csv <- function(csv_file_path, verbose = TRUE) {
     return(NULL)
   }
   
-  # Try to read CSV with enhanced error handling
+  # Try to read CSV with error handling
   tryCatch({
     # Check header structure first
     header_line <- readLines(csv_file_path, n = 1)
@@ -310,7 +307,7 @@ map_proteins_to_entrez <- function(proteins, verbose = TRUE) {
     }
   }
   
-  # Strategy 2: Try mapping as gene symbols directly (FIXED VERSION)
+  # Strategy 2: Try mapping as gene symbols directly
   remaining <- setdiff(unique_proteins, names(final_mapping))
   if (length(remaining) > 0) {
     if (verbose) message("Attempting direct gene symbol mapping for ", length(remaining), " proteins...")
@@ -531,7 +528,7 @@ map_proteins_with_cache <- function(proteins, cell_type, cache_name) {
   return(map_proteins_to_entrez(proteins))
 }
 
-# Enhanced visualization functions with high-quality graphics
+# Visualisation functions with high-quality graphics
 
 # Fixed create_publication_barplot function without aes_string()
 create_publication_barplot <- function(data, title, subtitle, filename, width = 10, height = 8, 
@@ -622,7 +619,7 @@ create_publication_barplot <- function(data, title, subtitle, filename, width = 
   return(p)
 }
 
-# Fixed create_publication_dotplot function with correct color parameter
+# create_publication_dotplot function with correct colour parameter
 create_publication_dotplot <- function(ego_result, title, subtitle, filename, width = 10, height = 8, 
                                        cell_type, theme_color = "Blues") {
   # Check if we have valid data
@@ -642,7 +639,7 @@ create_publication_dotplot <- function(ego_result, title, subtitle, filename, wi
     message("Creating dotplot for ", cell_type, " ordered by adjusted p-values")
   }
   
-  # Create enhanced dotplot with correct color parameter
+  # Create enhanced dotplot with correct colour parameter
   p <- dotplot(ego_result, 
                showCategory = min(20, nrow(ego_result@result)), 
                font.size = 12, 
@@ -757,7 +754,7 @@ visualize_go_results <- function(ego, cell_type, threshold_value, output_dir, on
   write.csv(ego@result, file = results_file, row.names = FALSE)
   message("Saved ", nrow(ego@result), " enriched GO terms to ", basename(results_file))
   
-  # Create visualizations if we have enough terms
+  # Create visualisations if we have enough terms
   if (nrow(ego@result) >= 5) {
     # Determine how many terms to show (max 20)
     top_n <- min(20, nrow(ego@result))
@@ -787,7 +784,7 @@ visualize_go_results <- function(ego, cell_type, threshold_value, output_dir, on
     title <- paste0(cell_type, " ", ontology, " Gene Ontology Terms")
     subtitle <- paste0("log2FC > ", threshold_value)
     
-    # Set color theme based on ontology
+    # Set colour theme based on ontology
     if (ontology == "BP") {
       theme_color <- "Blues"
     } else if (ontology == "MF") {
@@ -870,7 +867,7 @@ visualize_go_results <- function(ego, cell_type, threshold_value, output_dir, on
   return(ego@result)
 }
 
-# Fixed create_combined_go_visualization function without aes_string()
+# Create_combined_go_visualization function without aes_string()
 create_combined_go_visualization <- function(all_results, cell_type, threshold_value, output_dir) {
   if (length(all_results) == 0 || nrow(all_results) == 0) {
     message("No GO results to visualize")
@@ -944,7 +941,7 @@ create_combined_go_visualization <- function(all_results, cell_type, threshold_v
   return(p)
 }
 
-# Enhanced KEGG pathway analysis with improved visualization and cell-type specific ordering
+# KEGG pathway analysis with improved visualisation and cell-type specific ordering
 
 # Function to run KEGG pathway analysis with multiple fallbacks
 run_kegg_analysis <- function(sig_entrez, universe_entrez, cell_type, threshold_value, output_dir) {
@@ -976,7 +973,7 @@ run_kegg_analysis <- function(sig_entrez, universe_entrez, cell_type, threshold_
       minGSSize = 3  # Allow smaller gene sets
     )
     
-    # If no results, try with even more permissive settings
+    # If no results, try with more permissive settings
     if (is.null(kk) || nrow(kk@result) == 0) {
       message("No KEGG pathways found with default settings. Trying more permissive thresholds...")
       kk <- enrichKEGG(
@@ -991,7 +988,7 @@ run_kegg_analysis <- function(sig_entrez, universe_entrez, cell_type, threshold_
       )
     }
     
-    # Process results if we have any
+    # Process results if there are any
     if (!is.null(kk) && nrow(kk@result) > 0) {
       # Save KEGG results
       kegg_file <- file.path(kegg_dir, paste0(cell_type, "_log2FC_", threshold_value, "_KEGG_pathways.csv"))
@@ -2440,4 +2437,5 @@ copy_latest_cache_files <- function(target_dir) {
   }
   
   return(FALSE)
+
 }
