@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 #
 # Complete Cell Type Marker Validation Analysis
-# This script combines all functions and analysis steps into a single file
 #
 
 # Load required packages
@@ -520,7 +519,7 @@ cat("\nSummary: Found", length(microglia_markers_found), "microglia markers and"
     length(neuron_markers_found), "neuron markers\n")
 
 #------------------------------------------------------------------------------
-# Part 4: Create expression table and visualize results
+# Part 4: Create expression table and visualise results
 #------------------------------------------------------------------------------
 cat("\nCalculating mean expression values for each marker...\n")
 
@@ -688,3 +687,4 @@ cat(paste("- Vehicle columns used in neurons: ", paste(neuron_vehicle_columns, c
     file = report_file, append = TRUE)
 
 cat("\nAnalysis complete. Results saved to:", output_dir, "\n")
+
